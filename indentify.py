@@ -18,8 +18,6 @@ rikket_face_encoding = face_recognition.face_encodings(rikket_image)[0]
 robbie_image = face_recognition.load_image_file('./pictures/known/Robbie.png')
 robbie_face_encoding = face_recognition.face_encodings(robbie_image)[0]
 
-
-
 # CREATE ARRAY OF ENCODINGS AND NAMES
 known_face_encodings = [
 	barrie_face_encoding,
@@ -29,7 +27,6 @@ known_face_encodings = [
 	robbie_face_encoding,
 ]
 
-
 known_face_names = [
 	'Barrie',
 	'Gerrie',
@@ -38,30 +35,22 @@ known_face_names = [
 	'Robbie',
 ]
 
-
 # LOAD TEST IMAGE
 test_image = face_recognition.load_image_file('./pictures/unknown/newkids.jpg')
-
 
 # FIND FACES INSIDE TEST IMAGE
 face_locations = face_recognition.face_locations(test_image)
 face_encodings = face_recognition.face_encodings(test_image, face_locations)
 
-
 # CONVERTING TO PIL FORMAT
 pil_image = Image.fromarray(test_image)
-
 
 # INSTACE FOR IMAGEDRAW
 draw = ImageDraw.Draw(pil_image)
 
-
 # LOOP TROUGH FACES IN TEST IMAGE
 for (top, right, bottom, left), face_encoding in zip(face_locations, face_encodings):
 	matches = face_recognition.compare_faces(known_face_encodings, face_encoding)
-
-	for i in matches:
-		print(i)
 
 	# IF MATCH
 	if True in matches:
@@ -72,19 +61,15 @@ for (top, right, bottom, left), face_encoding in zip(face_locations, face_encodi
 	else:
 		name = 'Unknown Person'
 
-
 	# DRAW BOX
 	draw.rectangle(((left, top), (right, bottom)), outline=(255,0,0))
-
 
 	# DRAW TEXT AND RECTANGLE
 	text_width, text_height = draw.textsize(name)
 	draw.rectangle(((left, bottom - text_height - 10), (right, bottom)), fill=(255,0,0), outline=(255,0,0))
 
-
 	# DRAW TEXT INSIDE RECTANGLE
 	draw.text((left + 5, bottom - text_height - 5), name, fill=(255,255,255,255))
-
 
 # RECOMMANDED TO DO
 del draw 
